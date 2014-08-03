@@ -34,16 +34,16 @@
                                          (unquote system-object-ref))))
                                      parameters)))
                    (unquote (append '(methodbody)
-                                    (compile-expr code)))))))))
+                                    (begin
+                                      (set! racket-env-parameters parameters)
+                                      (compile-expr code))
+                                    (begin                                      
+                                      (set! racket-env-parameters null)
+                                      '((ret)))))))))))
 
-(define racket-env-fields
-  '())
-
+(define racket-env-fields null)
+(define racket-env-parameters null)
 (define racket-env-ifs 0)
-
-;; TODO: pass parameters as an environment, ldsfld -> ldarg eventually
-;; TODO: handle more than 2 operands in arithmetic operations
-;; TODO: handle late binding (through delegates)
 
 (define (compile-expr expr)
   (cond ((boolean? expr) (compile-boolean expr))
@@ -89,11 +89,14 @@
   (quasiquote ((ldstr (unquote expr)))))
 
 (define (compile-symbol expr)
-  (quasiquote
-   ((ldsfld (fieldref
-             (nameref (unquote expr))
-             (unquote racket-env-ref)
-             (unquote system-object-ref))))))
+  (if (contains? racket-env-parameters
+                 expr)
+      (quasiquote ((ldarg (unquote expr))))
+      (quasiquote
+       ((ldsfld (fieldref
+                 (nameref (unquote expr))
+                 (unquote racket-env-ref)
+                 (unquote system-object-ref)))))))
 
 (define (compile-pair expr)
   (case (car expr)
