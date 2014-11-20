@@ -7,8 +7,10 @@ Racket-to-CIL compiler written in Racket. CIL is the Common Intermediate Languag
 
 - Late binding. A given function name can be dynamically bound to any lambda expression. A naive implementation would be to use CIL delegates, which are equivalent to function pointers.
 
-> (compile-expr '(define (fact n) (if (< n 2) 1 (* n (fact (- n 1))))))
-> racket-env-def
+\> (compile-expr '(define (fact n) (if (< n 2) 1 (* n (fact (- n 1))))))
+
+\> racket-env-def
+
 '(classdef
   (nameref Racket)
   (nameref Environment)
