@@ -66,8 +66,8 @@
           (error "unsupported number type:" expr))))
 
 (define (compile-integer expr)
-  (if (and (>= expr -32768)
-           (<= expr +32767))
+  (if (and (>= expr -2147483648)
+           (<= expr +2147483647))
       (quasiquote ((ldc.i4 (unquote expr))))
       (if (and (>= expr -9223372036854775808)
                (<= expr +9223372036854775807))
