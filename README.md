@@ -1,17 +1,17 @@
 caquet
 ======
 
-Racket-to-CIL compiler written in Racket. CIL is the Common Intermediate Language (ECMA 335) powering the .NET framework. The goal is to support basic features without doing any rocket science. This initial implementation outlined the issues discussed below.
+Racket-to-CIL compiler. This prototype outlined the challenges below.
 
 ### Dynamic types
 
-Racket is dynamically typed whereas CIL is statically typed. The compiler types most things with Object, therefore boxing/unboxing will alter the efficiency of numerical operations. Type inference can partially address this issue.
+Racket is dynamically typed and CIL is statically typed. Caquet does not infer types yet, so most things are considered as Object in the target CIL code. That leads to poor numerical performance.
 
 ### Late binding
 
-A given function name can be dynamically bound to any lambda expression. A naive implementation would be to use CIL delegates, which are equivalent to function pointers.
+In Racket, during run-time, any function name can be dynamically bound to any lambda expression. This is not supported yet in Caquet. Generating CIL delegates (function pointers) might be a solution to support this feature.
 
-### Example
+### Usage
 
     > (compile-expr '(define (fact n) (if (< n 2) 1 (* n (fact (- n 1))))))
 
