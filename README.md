@@ -1,11 +1,11 @@
 caquet
 ======
 
-Racket-to-CIL compiler. This prototype outlined the challenges below.
+Racket-to-CIL transpiler. This prototype outlined the challenges below.
 
 ### Dynamic types
 
-Racket is dynamically typed and CIL is statically typed. Caquet does not infer types yet, so most things are considered as Object in the target CIL code. That leads to poor numerical performance.
+Racket is dynamically typed and CIL is statically typed. Caquet does not infer types yet, so most things are considered as Object in the transpiled CIL code. That leads to poor numerical performance.
 
 ### Late binding
 
